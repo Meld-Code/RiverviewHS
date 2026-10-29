@@ -59,8 +59,6 @@
       margin: 0 auto;
     }
 
-    /* HEADER */
-
     header {
       position: sticky;
       top: 0;
@@ -152,8 +150,6 @@
       color: white;
     }
 
-    /* HERO */
-
     .hero {
       min-height: 390px;
       display: flex;
@@ -216,8 +212,6 @@
       transform: translateY(-1px);
     }
 
-    /* FEATURE STRIP */
-
     .features {
       background: white;
       border-bottom: 1px solid var(--border);
@@ -265,8 +259,6 @@
       font-size: 10px;
       line-height: 1.5;
     }
-
-    /* GENERAL SECTIONS */
 
     main {
       padding: 30px 0 45px;
@@ -335,8 +327,6 @@
       gap: 21px;
     }
 
-    /* ANNOUNCEMENTS */
-
     .announcement {
       position: relative;
       padding: 16px 0 16px 13px;
@@ -374,8 +364,6 @@
       font-size: 11px;
       line-height: 1.6;
     }
-
-    /* FEATURED STORY */
 
     .news-image {
       position: relative;
@@ -435,8 +423,6 @@
       font-weight: bold;
     }
 
-    /* EVENTS */
-
     .events {
       margin-top: 23px;
     }
@@ -493,8 +479,6 @@
       font-size: 12px;
     }
 
-    /* QUICK LINKS */
-
     .quick-link {
       display: flex;
       align-items: center;
@@ -538,17 +522,26 @@
 
     .install-link {
       cursor: grab;
+      user-select: none;
     }
 
     .install-link:active {
       cursor: grabbing;
     }
 
+    .install-link:hover {
+      background: var(--navy2);
+    }
+
+    .install-link.install-dragging {
+      opacity: 0.7;
+      outline: 2px dashed #9fc2ff;
+      outline-offset: 3px;
+    }
+
     .hours {
       margin-top: 13px;
     }
-
-    /* PHOTO CARDS */
 
     .wide-grid {
       display: grid;
@@ -588,8 +581,6 @@
       margin-left: 4px;
     }
 
-    /* STATS */
-
     .stats {
       margin-bottom: 36px;
       padding: 34px 0;
@@ -616,8 +607,6 @@
       color: #d5e0f2;
       font-size: 12px;
     }
-
-    /* FOOTER */
 
     footer {
       background: #081831;
@@ -671,8 +660,6 @@
       line-height: 1.6;
     }
 
-    /* MODAL */
-
     .modal {
       position: fixed;
       inset: 0;
@@ -716,8 +703,6 @@
       background: #edf2fa;
       color: var(--navy);
     }
-
-    /* RESPONSIVE */
 
     @media (max-width: 1050px) {
       nav {
@@ -926,9 +911,11 @@
   </h1>
 
   <p>
-    We are a community of learners, creators, and leaders.
+    We are a community of <strong>learners, creators, and leaders.</strong>
     At Riverview, we challenge students to reach their full
     potential, both inside and outside the classroom.
+<br>
+    <strong>Quick Links For Meld.</strong>
   </p>
 
   <a class="btn" href="#about">
@@ -944,15 +931,17 @@
         <div class="feature-icon">
           <i class="fa-solid fa-graduation-cap"></i>
         </div>
-        <div>
-          <strong>Academic Excellence</strong>
-          <small>Challenging courses</small>
-        </div>
-      </div>
+    <div>
+      <strong>Academic Excellence</strong>
+      <small>Challenging courses</small>
+    </div>
+  </div>
+
   <div class="feature">
     <div class="feature-icon">
       <i class="fa-solid fa-users"></i>
     </div>
+
     <div>
       <strong>Student Life</strong>
       <small>Clubs and activities</small>
@@ -963,6 +952,7 @@
     <div class="feature-icon">
       <i class="fa-solid fa-star"></i>
     </div>
+
     <div>
       <strong>Safe Environment</strong>
       <small>A place to grow</small>
@@ -973,6 +963,7 @@
     <div class="feature-icon">
       <i class="fa-solid fa-book-open"></i>
     </div>
+
     <div>
       <strong>Future Ready</strong>
       <small>Prepare for tomorrow</small>
@@ -983,6 +974,7 @@
     <div class="feature-icon">
       <i class="fa-solid fa-trophy"></i>
     </div>
+
     <div>
       <strong>Strong Community</strong>
       <small>Students and families</small>
@@ -1043,7 +1035,9 @@
 
         <div class="news-overlay">
           <span class="pill">FEATURED STORY</span>
+
           <h3>Riverview Hawks Take the Field</h3>
+
           <p>
             Celebrating teamwork, school spirit, and an exciting season.
           </p>
@@ -1129,6 +1123,7 @@
           <i class="fa-solid fa-user-graduate"></i>
           Student Portal
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1137,6 +1132,7 @@
           <i class="fa-solid fa-book-open"></i>
           Academics
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1145,6 +1141,7 @@
           <i class="fa-solid fa-calendar-check"></i>
           Class Schedule
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1153,6 +1150,7 @@
           <i class="fa-solid fa-chart-column"></i>
           Grades Demo
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1161,6 +1159,7 @@
           <i class="fa-solid fa-people-group"></i>
           Student Life
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1169,6 +1168,7 @@
           <i class="fa-solid fa-book"></i>
           Library Resources
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
@@ -1176,7 +1176,9 @@
         class="quick-link install-link"
         id="bookmarklet"
         href="#"
+        draggable="true"
         title="Drag this link to your browser bookmarks bar"
+        aria-label="Drag Meld v1.0.0 to your browser bookmarks bar"
       >
         <span>
           <i class="fa-solid fa-download"></i>
@@ -1191,12 +1193,13 @@
           <i class="fa-solid fa-circle-question"></i>
           Need Help?
         </span>
+
         <i class="fa-solid fa-chevron-right"></i>
       </a>
 
       <p class="disclaimer">
-         <strong>Meld v1.0.0</strong> is a bookmarklet link. Drag it to your browser's
-        bookmarks bar to install it.
+        <strong>Meld v1.0.0</strong> is a bookmarklet link. Drag it to your
+        browser's bookmarks bar to install it.
       </p>
     </section>
 
@@ -1211,6 +1214,7 @@
       <p style="font-size: 12px; line-height: 1.9; margin-bottom: 0;">
         <strong>Monday – Friday</strong><br>
         7:30 AM – 2:30 PM<br>
+
         <span style="color: var(--muted);">
           Fictional example hours.
         </span>
@@ -1239,6 +1243,7 @@
       <div class="card-pad">
         <span class="pill">ACADEMICS</span>
         <h3 id="academics">Learning Without Limits</h3>
+
         <p>
           Explore classes, creative projects, science, technology, and
           opportunities to discover new interests.
@@ -1260,6 +1265,7 @@
       <div class="card-pad">
         <span class="pill">COMMUNITY</span>
         <h3 id="students">Find Your People</h3>
+
         <p>
           Discover clubs, student organizations, school traditions, and
           campus activities.
@@ -1281,6 +1287,7 @@
       <div class="card-pad">
         <span class="pill">ATHLETICS</span>
         <h3 id="athletics">Go Hawks!</h3>
+
         <p>
           Discover our fictional school's sports programs, competitions,
           and team spirit.
@@ -1329,7 +1336,9 @@
       <div class="feature-icon">
         <i class="fa-solid fa-flask"></i>
       </div>
+
       <h3>Science & Technology</h3>
+
       <p class="muted">
         Biology, chemistry, physics, computing, and hands-on discovery.
       </p>
@@ -1339,7 +1348,9 @@
       <div class="feature-icon">
         <i class="fa-solid fa-calculator"></i>
       </div>
+
       <h3>Mathematics</h3>
+
       <p class="muted">
         Algebra, geometry, statistics, problem solving, and advanced math.
       </p>
@@ -1349,7 +1360,9 @@
       <div class="feature-icon">
         <i class="fa-solid fa-earth-americas"></i>
       </div>
+
       <h3>Humanities</h3>
+
       <p class="muted">
         Literature, writing, history, government, and understanding our
         world.
@@ -1372,6 +1385,7 @@
           <i class="fa-solid fa-palette"></i>
           Art Club
         </h3>
+
         <p class="muted">Create, experiment, and share your work.</p>
       </div>
 
@@ -1380,6 +1394,7 @@
           <i class="fa-solid fa-robot"></i>
           Robotics
         </h3>
+
         <p class="muted">
           Build projects and solve engineering challenges.
         </p>
@@ -1390,6 +1405,7 @@
           <i class="fa-solid fa-masks-theater"></i>
           Drama
         </h3>
+
         <p class="muted">
           Explore acting, production, and performance.
         </p>
@@ -1409,9 +1425,11 @@
         <i class="fa-regular fa-calendar-days"></i>
         School Calendar
       </h3>
+
       <p class="muted">
         Check example events and dates listed on this homepage.
       </p>
+
       <a href="#events" class="text-link">
         See Upcoming Events
         <i class="fa-solid fa-arrow-right"></i>
@@ -1423,9 +1441,11 @@
         <i class="fa-solid fa-book-open"></i>
         Learning Resources
       </h3>
+
       <p class="muted">
         Explore subjects and example learning resources.
       </p>
+
       <a href="#subjects" class="text-link">
         Browse Subjects
         <i class="fa-solid fa-arrow-right"></i>
@@ -1437,9 +1457,11 @@
         <i class="fa-solid fa-house-user"></i>
         Family Information
       </h3>
+
       <p class="muted">
         Example school updates, family events, and announcements.
       </p>
+
       <a href="#news" class="text-link">
         Read Announcements
         <i class="fa-solid fa-arrow-right"></i>
@@ -1456,7 +1478,9 @@
   <div class="wide-grid">
     <article class="card card-pad">
       <span class="pill">CAMPUS</span>
+
       <h3>A Community That Cares</h3>
+
       <p class="muted">
         Our fictional school celebrates collaboration, creativity, and
         belonging.
@@ -1465,7 +1489,9 @@
 
     <article class="card card-pad">
       <span class="pill">ACADEMICS</span>
+
       <h3>Prepare for Your Future</h3>
+
       <p class="muted">
         Explore sample college preparation, career exploration, and study
         resources.
@@ -1474,7 +1500,9 @@
 
     <article class="card card-pad" id="sports">
       <span class="pill">HAWKS SPORTS</span>
+
       <h3>Hawks Spirit</h3>
+
       <p class="muted">
         Celebrate school pride through fictional athletics stories and
         events.
@@ -1490,12 +1518,15 @@
 
   <div class="card card-pad">
     <p><strong>Riverview High School</strong></p>
+
     <p class="muted">
       123 Example Campus Drive, Riverview, CA 90210
     </p>
+
     <p class="muted">
       Office hours: Monday–Friday, 7:30 AM–3:30 PM
     </p>
+
     <p class="muted">
       All contact information is fictional placeholder text.
     </p>
@@ -1528,9 +1559,11 @@
       <a href="#contact" aria-label="Instagram">
         <i class="fa-brands fa-instagram"></i>
       </a>
+
       <a href="#contact" aria-label="YouTube">
         <i class="fa-brands fa-youtube"></i>
       </a>
+
       <a href="#contact" aria-label="Facebook">
         <i class="fa-brands fa-facebook-f"></i>
       </a>
@@ -1539,6 +1572,7 @@
 
   <div>
     <h3>Explore</h3>
+
     <p>
       <a href="#about">About Our School</a><br>
       <a href="#academics">Academics</a><br>
@@ -1549,6 +1583,7 @@
 
   <div>
     <h3>Resources</h3>
+
     <p>
       <a href="#portal">Student Portal Demo</a><br>
       <a href="#events">School Calendar</a><br>
@@ -1559,6 +1594,7 @@
 
   <div>
     <h3>Contact</h3>
+
     <p>
       <i class="fa-solid fa-location-dot"></i>
       123 Example Campus Drive<br>
@@ -1593,6 +1629,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
   <h2 id="modalTitle">Student Portal Demo</h2>
+
   <p id="modalText">
     This fictional website does not connect to real student records.
   </p>
@@ -1622,6 +1659,7 @@
         const isOpen = nav.classList.toggle("open");
 
         menuBtn.setAttribute("aria-expanded", String(isOpen));
+
         menuBtn.innerHTML = isOpen
           ? '<i class="fa-solid fa-xmark"></i> Close'
           : '<i class="fa-solid fa-bars"></i> Menu';
@@ -2343,7 +2381,39 @@ reload.onclick=function(){
   alert("Meld bookmarklet error: "+e.message);
 }})();`;
 
-      bookmarklet.href = "javascript:" + encodeURIComponent(bookmarkletSource);
+      /*
+       * Important:
+       * The bookmarklet is still available as the link's href so Chrome
+       * can drag it into the bookmarks bar.
+       *
+       * Clicking it on the webpage is blocked below.
+       */
+      bookmarklet.href = "javascript:" + bookmarkletSource;
+
+      bookmarklet.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
+      bookmarklet.addEventListener("auxclick", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
+      bookmarklet.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      });
+
+      bookmarklet.addEventListener("dragstart", () => {
+        bookmarklet.classList.add("install-dragging");
+      });
+
+      bookmarklet.addEventListener("dragend", () => {
+        bookmarklet.classList.remove("install-dragging");
+      });
     })();
   </script>
 </body>
