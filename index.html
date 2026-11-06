@@ -1203,7 +1203,7 @@ a
       </a>
 
       <p class="disclaimer">
-        <strong>Meld v1.0.0</strong> is a bookmarklet link. Drag it to your
+        <strong>Meld v1.1.0</strong> is a bookmarklet link. Drag it to your
         browser's bookmarks bar to install it.
         <br>
         <strong>Warning</strong>
@@ -1305,7 +1305,7 @@ a
 
       <div class="card-pad">
         <span class="pill">ATHLETICS</span>
-        <h3 id="athletics">Go Hawks!</h3>
+        <h3 id="athletics">Go Chameleons!</h3>
 
         <p>
           Discover our fictional school's sports programs, competitions,
@@ -1325,12 +1325,12 @@ a
   <div class="container stats-grid">
     <div class="stat">
       <strong>1,240</strong>
-      <span>Sample Students</span>
+      <span>Students</span>
     </div>
 
     <div class="stat">
       <strong>82</strong>
-      <span>Sample Staff Members</span>
+      <span>Staff Members</span>
     </div>
 
     <div class="stat">
@@ -1660,152 +1660,151 @@ a
 
   </div>
   <script>
-    (() => {
-      "use strict";
+  (() => {
+    "use strict";
 
-      /* MOBILE NAVIGATION */
+    /* MOBILE NAVIGATION */
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.getElementById("mainNav");
 
-      const menuBtn = document.getElementById("menuBtn");
-      const nav = document.getElementById("mainNav");
+    function closeMobileMenu() {
+      nav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i> Menu';
+    }
 
-      function closeMobileMenu() {
-        nav.classList.remove("open");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i> Menu';
+    menuBtn.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      menuBtn.innerHTML = isOpen
+        ? '<i class="fa-solid fa-xmark"></i> Close'
+        : '<i class="fa-solid fa-bars"></i> Menu';
+    });
+
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+
+    /* DEMO MODALS */
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalText = document.getElementById("modalText");
+    const closeModalButton = document.getElementById("closeModal");
+    const modalOkay = document.getElementById("modalOkay");
+
+    function openModal(type) {
+      if (type === "grades") {
+        modalTitle.textContent = "Grades Demonstration";
+        modalText.textContent =
+          "This is a fictional demo. No actual grades or student records are available. You can build a sample grades page here later.";
+      } else {
+        modalTitle.textContent = "Student Portal Demonstration";
+        modalText.textContent =
+          "Welcome to the sample student portal. This is a fictional website and is not connected to any real school, student account, or record system.";
       }
 
-      menuBtn.addEventListener("click", () => {
-        const isOpen = nav.classList.toggle("open");
+      modal.classList.add("open");
+      closeModalButton.focus();
+    }
 
-        menuBtn.setAttribute("aria-expanded", String(isOpen));
+    function closeModal() {
+      modal.classList.remove("open");
+    }
 
-        menuBtn.innerHTML = isOpen
-          ? '<i class="fa-solid fa-xmark"></i> Close'
-          : '<i class="fa-solid fa-bars"></i> Menu';
+    document.querySelectorAll("[data-modal]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        openModal(link.dataset.modal);
       });
+    });
 
-      nav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMobileMenu);
-      });
+    closeModalButton.addEventListener("click", closeModal);
+    modalOkay.addEventListener("click", closeModal);
 
-      /* DEMO MODALS */
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
 
-      const modal = document.getElementById("modal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalText = document.getElementById("modalText");
-      const closeModalButton = document.getElementById("closeModal");
-      const modalOkay = document.getElementById("modalOkay");
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeModal();
+    });
 
-      function openModal(type) {
-        if (type === "grades") {
-          modalTitle.textContent = "Grades Demonstration";
-          modalText.textContent =
-            "This is a fictional demo. No actual grades or student records are available. You can build a sample grades page here later.";
-        } else {
-          modalTitle.textContent = "Student Portal Demonstration";
-          modalText.textContent =
-            "Welcome to the sample student portal. This is a fictional website and is not connected to any real school, student account, or record system.";
-        }
+    /* ACTIVE NAVIGATION */
+    if ("IntersectionObserver" in window) {
+      const sections = document.querySelectorAll("main section[id], .hero[id]");
 
-        modal.classList.add("open");
-        closeModalButton.focus();
-      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
 
-      function closeModal() {
-        modal.classList.remove("open");
-      }
-
-      document.querySelectorAll("[data-modal]").forEach((link) => {
-        link.addEventListener("click", (event) => {
-          event.preventDefault();
-          openModal(link.dataset.modal);
-        });
-      });
-
-      closeModalButton.addEventListener("click", closeModal);
-      modalOkay.addEventListener("click", closeModal);
-
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-          closeModal();
-        }
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          closeModal();
-        }
-      });
-
-      /* ACTIVE NAVIGATION */
-
-      if ("IntersectionObserver" in window) {
-        const sections = document.querySelectorAll(
-          "main section[id], .hero[id]"
-        );
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) {
-                return;
-              }
-
-              nav.querySelectorAll("a").forEach((link) => {
-                link.classList.toggle(
-                  "active",
-                  link.getAttribute("href") === `#${entry.target.id}`
-                );
-              });
+            nav.querySelectorAll("a").forEach((link) => {
+              link.classList.toggle(
+                "active",
+                link.getAttribute("href") === `#${entry.target.id}`
+              );
             });
-          },
-          {
-            rootMargin: "-20% 0px -70% 0px"
-          }
-        );
+          });
+        },
+        { rootMargin: "-20% 0px -70% 0px" }
+      );
 
-        sections.forEach((section) => observer.observe(section));
-      }
+      sections.forEach((section) => observer.observe(section));
+    }
 
-      /* MELD BOOKMARKLET GENERATOR */
+    /* MELD BOOKMARKLET */
+    const bookmarklet = document.getElementById("bookmarklet");
 
-      const bookmarklet = document.getElementById("bookmarklet");
+    /*
+      Keep this as a normal quoted string, not a nested template literal.
+      This avoids the inner backticks in the bookmarklet breaking the page script.
+    */
+    const bookmarkletSource = 'javascript:(function(){try{var ids=["meldPanel","meldFollow","meldSocials","meldStyle","meldTransparency","meldNotes","meldFaIcons"];for(var i=0;i<ids.length;i++){var old=document.getElementById(ids[i]);if(old&&old.parentNode)old.parentNode.removeChild(old);}var accent="#b7f35c",bg="#101710",dark="#182318",text="#f3f8ef",muted="#9eae99",panel=document.createElement("div"),head=document.createElement("div"),title=document.createElement("span"),tools=document.createElement("div"),area=document.createElement("div"),frame=document.createElement("iframe"),load=document.createElement("div"),follow=document.createElement("button"),social=document.createElement("div"),style=document.createElement("style"),fa=document.createElement("link"),transBox=null,bar=null,fill=null,knob=null,value=null,notesBox=null,transparency=0,reload,mini,full,trans,close,notesButton,started=0,hidden=false,maxTimer=null,loaderDelay=0;function set(e,s){e.style.cssText=s;}function iconBtn(icon,label){var b=document.createElement("button");b.type="button";b.title=label;b.setAttribute("aria-label",label);b.innerHTML="<i class=\x27fa-solid "+icon+"\x27 aria-hidden=\x27true\x27></i>";set(b,"width:36px;height:34px;border:1px solid rgba(183,243,92,.22);border-radius:10px;background:#182318;color:"+text+";font-size:14px;cursor:pointer");return b;}function apply(n){transparency=Math.max(0,Math.min(95,Math.round(Number(n)||0)));var opacity=1-transparency/100;panel.style.opacity=opacity;follow.style.opacity=opacity;if(fill)fill.style.width=(transparency/95)*100+"%";if(knob)knob.style.left=(transparency/95)*100+"%";if(value)value.textContent=transparency+"%";}function pointer(x){if(!bar)return;var rect=bar.getBoundingClientRect();apply(Math.max(0,Math.min(1,(x-rect.left)/rect.width))*95);}var loaderMessages=[{text:"Wir Suchen Dich - Burger King -22",chance:22},{text:"Cheese Pizza is 25 max -21",chance:21},{text:"Meld Gaming Is The Best -20",chance:20},{text:"hehehehehehehehehehehehehehehehehehehehehehehehehehe -19",chance:19},{text:"Meld #1 -18",chance:18},{text:"Tobnyi is hi >:} -17",chance:17},{text:"do fish breathe water because humans breathe air and they die in air? -16",chance:16},{text:"Lwk Haven\x27t Learned Anything at School - ToonyTime -15",chance:15},{text:"Only Og\x27s remember Safe Bucket -14",chance:14},{text:"Not A Virus! -12",chance:12},{text:"Sonion ring is not tuff -11",chance:11},{text:"The F Students Are The Inventors -10",chance:10},{text:"Meld Is So Much Better! -9",chance:9},{text:"Welcome To Meld! -8",chance:8},{text:"Meld on Top! -7",chance:7},{text:"Subscribe to My Socials - ToonyTime -6",chance:6},{text:"Powered By CiphAnon Studios -5",chance:5},{text:"The Bell Doesn\x27t Control You -4",chance:4},{text:"Cheats are definitely not encouraged on this site -3",chance:3},{text:"Oi oi oi baka - ToonyTime -2",chance:2},{text:"1 in 10k",chance:.01},{text:"1 in 100k",chance:.001},{text:"1 in 1 million",chance:.0001},{text:"1 in 10 Million",chance:.00001},{text:"1 in 100 Million",chance:.000001},{text:"1 in 1 Billion",chance:.0000001},{text:"1 in 10 Billion",chance:.00000001},{text:"1 in 100 Billion",chance:.000000001},{text:"1 in 1 Trillion",chance:.0000000001}];function chooseLoaderMessage(){var total=0,roll,i;for(i=0;i<loaderMessages.length;i++)total+=loaderMessages[i].chance;roll=Math.random()*total;for(i=0;i<loaderMessages.length;i++){roll-=loaderMessages[i].chance;if(roll<=0)return loaderMessages[i].text;}return loaderMessages[0].text;}fa.id="meldFaIcons";fa.rel="stylesheet";fa.href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";document.head.appendChild(fa);style.id="meldStyle";style.innerHTML="#meldPanel{position:fixed;z-index:2147483647;left:50px;top:50px;width:min(850px,calc(100vw - 24px));height:min(550px,calc(100vh - 24px));min-width:360px;min-height:240px;resize:both;background:"+bg+";border:1px solid rgba(183,243,92,.75);border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65);overflow:hidden;font-family:Arial,sans-serif;box-sizing:border-box}#meldPanel *{box-sizing:border-box}#meldHead{height:48px;display:flex;align-items:center;padding:0 10px;background:#172318;color:"+accent+";border-bottom:1px solid rgba(183,243,92,.2);cursor:move;user-select:none}#meldTitle{flex:1;min-width:0;font-weight:700}#meldTools{display:flex;gap:5px}#meldArea{position:relative;height:calc(100% - 48px);background:"+bg+";overflow:hidden}#meldFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}#meldLoad{position:absolute;z-index:3;inset:0;display:flex;align-items:center;justify-content:center;background:#101710;color:#f3f8ef;text-align:center}.meldLoader{position:relative;width:240px;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center}.meldLogo{z-index:2;width:64px;height:64px;line-height:64px;border-radius:18px;background:#86c52b;color:#101708;font-size:36px;font-weight:bold}.meldBall{position:absolute;width:12px;height:12px;border:2px solid #101710;border-radius:50%;background:#b7f35c;animation:mb 4s ease-in-out infinite alternate}.mb1{transform:translate(-80px,-50px)}.mb2{transform:translate(80px,-40px);animation-delay:-1s}.mb3{transform:translate(-60px,70px);animation-delay:-2s}.mb4{transform:translate(70px,65px);animation-delay:-1.5s}.meldName{z-index:2;margin-top:22px;color:#b7f35c;font-size:24px;font-weight:bold}.meldStatus{z-index:2;margin-top:7px;color:#9eae99;font-size:12px}.meldBar{z-index:2;width:170px;height:4px;margin-top:17px;overflow:hidden;border-radius:5px;background:#2c3d29}.meldBar i{display:block;width:35%;height:100%;background:#b7f35c;animation:bar 1.6s ease-in-out infinite alternate}@keyframes mb{to{transform:translate(45px,30px)}}@keyframes bar{to{transform:translateX(180%)}}#meldFollow{position:fixed;z-index:2147483648;left:50%;top:18px;transform:translateX(-50%);padding:11px 19px;border:1px solid "+accent+";border-radius:13px;background:"+dark+";color:"+accent+";font:bold 12px Arial;cursor:pointer}#meldSocials{position:fixed;z-index:2147483649;left:50%;top:70px;transform:translateX(-50%);display:none;width:340px;max-width:calc(100vw - 30px);padding:14px;border:1px solid "+accent+";border-radius:16px;background:"+dark+";font:12px Arial}#meldSocials b{display:block;margin-bottom:10px;color:"+accent+"}#meldSocials a{display:block;margin:7px 0;padding:10px;border:1px solid rgba(183,243,92,.25);border-radius:9px;background:#223020;color:#dcebd6;text-decoration:none}#meldTransparency{position:fixed;z-index:2147483650;top:88px;right:18px;width:245px;padding:14px;background:"+dark+";color:"+text+";border:1px solid "+accent+";border-radius:13px;font:12px Arial}#meldNotes{position:fixed;z-index:2147483651;top:110px;right:18px;width:420px;height:480px;min-width:320px;min-height:260px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);display:none;resize:both;overflow:hidden;padding:12px;background:#111a12;color:"+text+";border:1px solid rgba(183,243,92,.65);border-radius:16px;font:13px Arial}";document.head.appendChild(style);panel.id="meldPanel";head.id="meldHead";title.id="meldTitle";title.textContent="CiphAnon Studios - Meld v1.1.0";tools.id="meldTools";area.id="meldArea";frame.id="meldFrame";load.id="meldLoad";set(panel,"position:fixed;z-index:2147483647;left:50px;top:50px;width:min(850px,calc(100vw - 24px));height:min(550px,calc(100vh - 24px));min-width:360px;min-height:240px;resize:both;background:"+bg+";border:1px solid rgba(183,243,92,.75);border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65);overflow:hidden;font-family:Arial,sans-serif;box-sizing:border-box");set(head,"height:48px;display:flex;align-items:center;padding:0 10px;background:#172318;color:"+accent+";cursor:move;user-select:none");set(title,"flex:1;font-weight:700");set(tools,"display:flex;gap:5px");set(area,"position:relative;height:calc(100% - 48px);overflow:hidden");reload=iconBtn("fa-rotate","Reload");mini=iconBtn("fa-minus","Minimize");full=iconBtn("fa-expand","Maximize");trans=iconBtn("fa-circle-half-stroke","Transparency");notesButton=iconBtn("fa-note-sticky","Notes");close=iconBtn("fa-xmark","Close");tools.appendChild(reload);tools.appendChild(mini);tools.appendChild(full);tools.appendChild(trans);tools.appendChild(notesButton);tools.appendChild(close);head.appendChild(title);head.appendChild(tools);frame.src="https://meld-code.github.io/Meld";frame.title="Meld";set(frame,"position:absolute;left:0;top:0;width:100%;height:100%;border:0;background:#fff");load.innerHTML="<div class=\x27meldLoader\x27><div class=\x27meldLogo\x27>M</div><div class=\x27meldBall mb1\x27></div><div class=\x27meldBall mb2\x27></div><div class=\x27meldBall mb3\x27></div><div class=\x27meldBall mb4\x27></div><div class=\x27meldName\x27>Meld</div><div class=\x27meldStatus\x27 id=\x27meldStatus\x27></div><div class=\x27meldBar\x27><i></i></div></div>";area.appendChild(frame);area.appendChild(load);panel.appendChild(head);panel.appendChild(area);document.body.appendChild(panel);follow.id="meldFollow";follow.type="button";follow.textContent="Follow For More Content!";document.body.appendChild(follow);social.id="meldSocials";social.innerHTML="<b>CiphAnon Studios Socials</b><a target=\x27_blank\x27 rel=\x27noopener noreferrer\x27 href=\x27https://www.youtube.com/@ItsToonyTime\x27>@ItsToonyTime - YouTube</a><a target=\x27_blank\x27 rel=\x27noopener noreferrer\x27 href=\x27https://www.youtube.com/@ItsCodeToonyTime\x27>@ItsCodeToonyTime - YouTube</a><a target=\x27_blank\x27 rel=\x27noopener noreferrer\x27 href=\x27https://www.youtube.com/@ItsMCToonyTime\x27>@ItsMCToonyTime - YouTube</a><a target=\x27_blank\x27 rel=\x27noopener noreferrer\x27 href=\x27https://www.youtube.com/@CiphAnonStudios\x27>@CiphAnonStudios - YouTube</a>";document.body.appendChild(social);var status=document.getElementById("meldStatus");if(status)status.textContent=chooseLoaderMessage();var hideTimer=setTimeout(function(){load.style.display="none";},12000);frame.onload=function(){clearTimeout(hideTimer);setTimeout(function(){load.style.display="none";},1500);};follow.onclick=function(){social.style.display=social.style.display==="block"?"none":"block";};function closeAll(){clearTimeout(hideTimer);[panel,follow,social,style,fa,transBox,notesBox].forEach(function(el){if(el&&el.parentNode)el.parentNode.removeChild(el);});document.removeEventListener("keydown",keyHandler,true);}close.onclick=closeAll;mini.onclick=function(){panel.style.display="none";follow.style.display="none";social.style.display="none";};var max=false,old={};full.onclick=function(){if(!max){old.left=panel.style.left;old.top=panel.style.top;old.width=panel.style.width;old.height=panel.style.height;panel.style.left="0";panel.style.top="0";panel.style.width="100vw";panel.style.height="100vh";panel.style.resize="none";area.style.height="calc(100vh - 48px)";max=true;}else{panel.style.left=old.left||"50px";panel.style.top=old.top||"50px";panel.style.width=old.width||"min(850px,calc(100vw - 24px))";panel.style.height=old.height||"min(550px,calc(100vh - 24px))";panel.style.resize="both";area.style.height="calc(100% - 48px)";max=false;}};trans.onclick=function(){if(!transBox){transBox=document.createElement("div");transBox.id="meldTransparency";transBox.innerHTML="<b>Panel transparency</b><input type=\x27range\x27 min=\x270\x27 max=\x2795\x27 value=\x270\x27>";document.body.appendChild(transBox);transBox.querySelector("input").oninput=function(){apply(this.value);};}else transBox.style.display=transBox.style.display==="none"?"block":"none";};notesButton.onclick=function(){if(!notesBox){notesBox=document.createElement("div");notesBox.id="meldNotes";notesBox.innerHTML="<b>Notes</b><textarea style=\x27display:block;width:100%;height:85%;margin-top:10px;background:#101710;color:#f3f8ef;border:1px solid #385034;border-radius:8px;padding:10px\x27 placeholder=\x27Write your notes here...\x27></textarea>";document.body.appendChild(notesBox);}notesBox.style.display=notesBox.style.display==="none"?"block":"none";};var dragging=false,dx=0,dy=0;head.onmousedown=function(e){if(e.target.closest("button"))return;dragging=true;var r=panel.getBoundingClientRect();dx=e.clientX-r.left;dy=e.clientY-r.top;e.preventDefault();};document.addEventListener("mousemove",function(e){if(dragging){panel.style.left=Math.max(0,Math.min(window.innerWidth-panel.offsetWidth,e.clientX-dx))+"px";panel.style.top=Math.max(0,Math.min(window.innerHeight-panel.offsetHeight,e.clientY-dy))+"px";}});document.addEventListener("mouseup",function(){dragging=false;});function keyHandler(e){if(e.code==="Backquote")apply(transparency&&transparency<95?95:0);}document.addEventListener("keydown",keyHandler,true);reload.onclick=function(){frame.src="https://meld-code.github.io/Meld?reload="+Date.now();load.style.display="flex";clearTimeout(hideTimer);hideTimer=setTimeout(function(){load.style.display="none";},12000);};}catch(e){alert("Meld bookmarklet error: "+e.message);}})();';
+/*
+  Assigning the JavaScript URL to href preserves the draggable bookmarklet.
+  Do not encode the javascript: URL; Chrome needs it as the bookmark URL.
+*/
+bookmarklet.setAttribute("href", bookmarkletSource);
+bookmarklet.setAttribute("draggable", "true");
+bookmarklet.setAttribute(
+  "aria-label",
+  "Drag Meld v1.1.0 to your browser bookmarks bar"
+);
+bookmarklet.setAttribute(
+  "title",
+  "Drag this link to your browser bookmarks bar to install Meld v1.1.0"
+);
 
-      const bookmarkletSource = String.raw`javascript:(function(){try{var ids=["meldPanel","meldFollow","meldSocials","meldStyle","meldTransparency","meldNotes","meldFaIcons"];for(var i=0;i<ids.length;i++){var old=document.getElementById(ids[i]);if(old&&old.parentNode)old.parentNode.removeChild(old);}var accent="#b7f35c",bg="#101710",dark="#182318",text="#f3f8ef",muted="#9eae99",panel=document.createElement("div"),head=document.createElement("div"),title=document.createElement("span"),tools=document.createElement("div"),area=document.createElement("div"),frame=document.createElement("iframe"),load=document.createElement("div"),follow=document.createElement("button"),social=document.createElement("div"),style=document.createElement("style"),fa=document.createElement("link"),transBox=null,bar=null,fill=null,knob=null,value=null,notesBox=null,transparency=0,reload,mini,full,trans,close,notesButton,started=0,hidden=false,maxTimer=null,loaderDelay=0;function set(e,s){e.style.cssText=s;}function iconBtn(icon,label){var b=document.createElement("button");b.type="button";b.title=label;b.setAttribute("aria-label",label);b.innerHTML="<i class='fa-solid "+icon+"' aria-hidden='true'></i>";set(b,"width:36px;height:34px;border:1px solid rgba(183,243,92,.22);border-radius:10px;background:#182318;color:"+text+";font-size:14px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s");b.onmouseenter=function(){b.style.background="#263624";b.style.borderColor=accent;b.style.transform="translateY(-1px)";};b.onmouseleave=function(){b.style.background="#182318";b.style.borderColor="rgba(183,243,92,.22)";b.style.transform="none";};return b;}function apply(n){transparency=Math.max(0,Math.min(95,Math.round(Number(n)||0)));var opacity=1-transparency/100;panel.style.opacity=opacity;follow.style.opacity=opacity;if(fill)fill.style.width=(transparency/95)*100+"%";if(knob)knob.style.left=(transparency/95)*100+"%";if(value)value.textContent=transparency+"%";}function pointer(x){if(!bar)return;var rect=bar.getBoundingClientRect();apply(Math.max(0,Math.min(1,(x-rect.left)/rect.width))*95);}var loaderMessages=[{text:"Wir Suchen Dich - Burger King -22",chance:22},{text:"Cheese Pizza is 25 max -21",chance:21},{text:"Meld Gaming Is The Best -20",chance:20},{text:"hehehehehehehehehehehehehehehehehehehehehehehehehehe -19",chance:19},{text:"Meld #1 -18",chance:18},{text:"Tobnyi is hi >:} -17",chance:17},{text:"do fish breathe water because humans breathe air and they die in air? -16",chance:16},{text:"Lwk Haven't Learned Anything at School - ToonyTime -15",chance:15},{text:"Only Og's remember Safe Bucket -14",chance:14},{text:"Not A Virus! -12",chance:12},{text:"Sonion ring is not tuff -11",chance:11},{text:"The F Students Are The Inventors -10",chance:10},{text:"Meld Is So Much Better! -9",chance:9},{text:"Welcome To Meld! -8",chance:8},{text:"Meld on Top! -7",chance:7},{text:"Subscribe to My Socials - ToonyTime -6",chance:6},{text:"Powered By CiphAnon Studios -5",chance:5},{text:"The Bell Doesn't Control You -4",chance:4},{text:"Cheats are definitely not encouraged on this site -3",chance:3},{text:"Oi oi oi baka - ToonyTime -2",chance:2},{text:"1 in 10k",chance:.01},{text:"1 in 100k",chance:.001},{text:"1 in 1 million",chance:.0001},{text:"1 in 10 Million",chance:.00001},{text:"1 in 100 Million",chance:.000001},{text:"1 in 1 Billion",chance:.0000001},{text:"1 in 10 Billion",chance:.00000001},{text:"1 in 100 Billion",chance:.000000001},{text:"1 in 1 Trillion",chance:.0000000001}];function chooseLoaderMessage(){var total=0,roll,i;for(i=0;i<loaderMessages.length;i++)total+=loaderMessages[i].chance;roll=Math.random()*total;for(i=0;i<loaderMessages.length;i++){roll-=loaderMessages[i].chance;if(roll<=0)return loaderMessages[i].text;}return loaderMessages[0].text;}fa.id="meldFaIcons";fa.rel="stylesheet";fa.href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";document.head.appendChild(fa);style.id="meldStyle";style.innerHTML="#meldPanel{position:fixed;z-index:2147483647;left:50px;top:50px;width:min(850px,calc(100vw - 24px));height:min(550px,calc(100vh - 24px));min-width:360px;min-height:240px;resize:both;background:"+bg+";border:1px solid rgba(183,243,92,.75);border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 28px rgba(183,243,92,.08);overflow:hidden;font-family:Arial,sans-serif;box-sizing:border-box}#meldPanel *{box-sizing:border-box}#meldHead{height:48px;display:flex;align-items:center;padding:0 10px;background:linear-gradient(135deg,#1b291a,#142014);color:"+accent+";border-bottom:1px solid rgba(183,243,92,.2);cursor:move;user-select:none}#meldTitle{flex:1;min-width:0;font-weight:700;letter-spacing:.2px}#meldTools{display:flex;gap:5px}#meldTools button{width:36px;height:34px;border:1px solid rgba(183,243,92,.22);border-radius:10px;background:#182318;color:#f3f8ef;font-size:14px;cursor:pointer}#meldArea{position:relative;height:calc(100% - 48px);background:"+bg+";overflow:hidden}#meldFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}#meldLoad{position:absolute;z-index:3;inset:0;display:flex;align-items:center;justify-content:center;background:#101710;color:#f3f8ef;font-family:Arial,sans-serif;text-align:center;transition:opacity .4s ease}.meldLoader{position:relative;width:240px;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center}.meldLogo{z-index:2;width:64px;height:64px;line-height:64px;border-radius:18px;background:#86c52b;color:#101708;font-size:36px;font-weight:bold;box-shadow:0 0 35px rgba(183,243,92,.45);animation:meldLogo 2s ease-in-out infinite}.meldBall{position:absolute;width:12px;height:12px;border:2px solid #101710;border-radius:50%;background:#b7f35c;box-shadow:0 0 14px #b7f35c;animation-direction:alternate;animation-iteration-count:infinite;animation-timing-function:ease-in-out}.mb1{animation:mb1 4.5s infinite}.mb2{animation:mb2 5.5s -1s infinite}.mb3{animation:mb3 6.5s -2s infinite}.mb4{animation:mb4 5s -1.5s infinite}.meldName{z-index:2;margin-top:22px;color:#b7f35c;font-size:24px;font-weight:bold}.meldStatus{z-index:2;margin-top:7px;color:#9eae99;font-size:12px}.meldBar{z-index:2;width:170px;height:4px;margin-top:17px;overflow:hidden;border-radius:5px;background:#2c3d29}.meldBar i{display:block;width:35%;height:100%;background:#b7f35c;animation:meldBar 1.6s ease-in-out infinite}@keyframes meldLogo{50%{transform:translateY(-5px) scale(1.05)}}@keyframes mb1{0%{transform:translate(-82px,-42px)}25%{transform:translate(-45px,30px)}50%{transform:translate(-95px,66px)}75%{transform:translate(-15px,48px)}100%{transform:translate(-70px,-58px)}}@keyframes mb2{0%{transform:translate(82px,-60px)}25%{transform:translate(105px,0)}50%{transform:translate(58px,70px)}75%{transform:translate(108px,35px)}100%{transform:translate(65px,-48px)}}@keyframes mb3{0%{transform:translate(-10px,-92px)}25%{transform:translate(62px,-70px)}50%{transform:translate(100px,-12px)}75%{transform:translate(36px,83px)}100%{transform:translate(-58px,50px)}}@keyframes mb4{0%{transform:translate(5px,88px)}25%{transform:translate(-70px,68px)}50%{transform:translate(-100px,8px)}75%{transform:translate(-42px,-78px)}100%{transform:translate(58px,-48px)}}@keyframes meldBar{0%{transform:translateX(-180%)}100%{transform:translateX(550%)}}#meldFollow{position:fixed;z-index:2147483648;left:50%;top:18px;transform:translateX(-50%);padding:11px 19px;border:1px solid "+accent+";border-radius:13px;background:"+dark+";color:"+accent+";font:bold 12px Arial;cursor:pointer}#meldSocials{position:fixed;z-index:2147483649;left:50%;top:70px;transform:translateX(-50%);display:none;width:340px;max-width:calc(100vw - 30px);padding:14px;border:1px solid "+accent+";border-radius:16px;background:"+dark+";box-shadow:0 20px 60px rgba(0,0,0,.7);font:12px Arial}#meldSocials b{display:block;margin-bottom:10px;color:"+accent+"}#meldSocials a{display:block;margin:7px 0;padding:10px;border:1px solid rgba(183,243,92,.25);border-radius:9px;background:#223020;color:#dcebd6;text-decoration:none}#meldTransparency{position:fixed;z-index:2147483650;top:88px;right:18px;width:245px;padding:14px;background:"+dark+";color:"+text+";border:1px solid "+accent+";border-radius:13px;box-shadow:0 18px 45px rgba(0,0,0,.65);font:12px Arial}#meldNotes{position:fixed;z-index:2147483651;top:110px;right:18px;width:420px;height:480px;min-width:320px;min-height:260px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);display:none;resize:both;overflow:hidden;box-sizing:border-box;padding:0;background:#111a12;color:"+text+";border:1px solid rgba(183,243,92,.65);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.65);font:13px Arial,sans-serif}#meldNotes *{box-sizing:border-box}#meldNotesHeader{height:44px;display:flex;align-items:center;gap:9px;padding:0 12px;background:linear-gradient(135deg,#21301f,#172318);border-bottom:1px solid rgba(183,243,92,.16);cursor:move;user-select:none}#meldNotesHeading{flex:1;color:"+accent+";font-size:13px;font-weight:bold}#meldNotesTop{display:flex;gap:7px;padding:11px 12px 8px}#meldNotesPages{min-width:0;flex:1;padding:8px;border:1px solid rgba(183,243,92,.25);border-radius:8px;background:#101710;color:"+text+"}#meldNotes button{padding:8px 10px;border:1px solid rgba(183,243,92,.3);border-radius:8px;background:#223020;color:"+accent+";font-weight:bold;cursor:pointer}#meldNotes button:hover{background:#2d402a}#meldNotesTitle{width:calc(100% - 24px);margin:0 12px 8px;padding:10px;border:1px solid rgba(183,243,92,.22);border-radius:8px;background:#101710;color:"+text+";font:bold 14px Arial}#meldNotesText{display:block;width:calc(100% - 24px);height:calc(100% - 156px);min-height:100px;margin:0 12px;resize:none;padding:11px;border:1px solid rgba(183,243,92,.22);border-radius:8px;background:#101710;color:"+text+";font:13px/1.55 Arial}#meldNotesHint{margin:7px 12px;color:"+muted+";font-size:11px}@media(max-width:600px){#meldPanel{left:12px!important;top:80px!important;min-width:300px}#meldFollow{top:18px;font-size:11px}#meldNotes{left:12px;right:12px;top:105px;width:calc(100vw - 24px);height:calc(100vh - 125px);min-width:280px}}";document.head.appendChild(style);panel.id="meldPanel";head.id="meldHead";title.id="meldTitle";tools.id="meldTools";area.id="meldArea";frame.id="meldFrame";load.id="meldLoad";set(panel,"position:fixed;z-index:2147483647;left:50px;top:50px;width:min(850px,calc(100vw - 24px));height:min(550px,calc(100vh - 24px));min-width:360px;min-height:240px;resize:both;background:"+bg+";border:1px solid rgba(183,243,92,.75);border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 28px rgba(183,243,92,.08);overflow:hidden;font-family:Arial,sans-serif;box-sizing:border-box");set(head,"height:48px;display:flex;align-items:center;padding:0 10px;background:linear-gradient(135deg,#1b291a,#142014);color:"+accent+";border-bottom:1px solid rgba(183,243,92,.2);cursor:move;user-select:none");title.textContent="CiphAnon Studios - Meld";set(title,"flex:1;min-width:0;font-weight:700;letter-spacing:.2px");set(tools,"display:flex;gap:5px");set(area,"position:relative;height:calc(100% - 48px);background:"+bg+";overflow:hidden");reload=iconBtn("fa-rotate","Reload");mini=iconBtn("fa-minus","Minimize");full=iconBtn("fa-expand","Maximize");trans=iconBtn("fa-circle-half-stroke","Transparency");notesButton=iconBtn("fa-note-sticky","Notes");close=iconBtn("fa-xmark","Close");reload.id="meldReload";mini.id="meldMini";full.id="meldFull";trans.id="meldTrans";notesButton.id="meldNotesButton";close.id="meldClose";tools.appendChild(reload);tools.appendChild(mini);tools.appendChild(full);tools.appendChild(trans);tools.appendChild(notesButton);tools.appendChild(close);head.appendChild(title);head.appendChild(tools);frame.src="https://meld-code.github.io/Meld";frame.title="Meld";frame.setAttribute("allowfullscreen","");set(frame,"position:absolute;left:0;top:0;width:100%;height:100%;border:0;background:#fff");load.innerHTML="<div class='meldLoader'><div class='meldLogo'>M</div><div class='meldBall mb1'></div><div class='meldBall mb2'></div><div class='meldBall mb3'></div><div class='meldBall mb4'></div><div class='meldName'>Meld</div><div class='meldStatus' id='meldStatus'></div><div class='meldBar'><i></i></div></div>";set(load,"position:absolute;z-index:3;inset:0;display:flex;align-items:center;justify-content:center;background:#101710;color:#f3f8ef;font-family:Arial,sans-serif;text-align:center;transition:opacity .4s ease");area.appendChild(frame);area.appendChild(load);panel.appendChild(head);panel.appendChild(area);document.body.appendChild(panel);follow.id="meldFollow";follow.type="button";follow.textContent="Follow For More Content!";set(follow,"position:fixed;z-index:2147483648;left:50%;top:18px;transform:translateX(-50%);padding:11px 19px;border:1px solid "+accent+";border-radius:13px;background:"+dark+";color:"+accent+";font:bold 12px Arial;cursor:pointer");document.body.appendChild(follow);social.id="meldSocials";social.innerHTML="<b>CiphAnon Studios Socials</b><a target='_blank' rel='noopener noreferrer' href='https://www.youtube.com/@ItsToonyTime'>@ItsToonyTime - YouTube</a><a target='_blank' rel='noopener noreferrer' href='https://www.youtube.com/@ItsCodeToonyTime'>@ItsCodeToonyTime - YouTube</a><a target='_blank' rel='noopener noreferrer' href='https://www.youtube.com/@ItsMCToonyTime'>@ItsMCToonyTime - YouTube</a><a target='_blank' rel='noopener noreferrer' href='https://www.youtube.com/@CiphAnonStudios'>@CiphAnonStudios - YouTube</a>";document.body.appendChild(social);function hide(){if(hidden)return;if(Date.now()-started<loaderDelay){setTimeout(hide,loaderDelay-(Date.now()-started));return;}hidden=true;clearTimeout(maxTimer);load.style.opacity="0";setTimeout(function(){load.style.display="none";load.style.opacity="1";},450);}function startLoader(){started=Date.now();loaderDelay=8000+Math.floor(Math.random()*12001);hidden=false;var status=document.getElementById("meldStatus");if(status)status.textContent=chooseLoaderMessage();load.style.display="flex";load.style.opacity="1";clearTimeout(maxTimer);maxTimer=setTimeout(hide,20000);}frame.onload=function(){hide();};startLoader();follow.onclick=function(){social.style.display=social.style.display==="block"?"none":"block";};function closeAll(){clearTimeout(maxTimer);if(panel.parentNode)panel.parentNode.removeChild(panel);if(follow.parentNode)follow.parentNode.removeChild(follow);if(social.parentNode)social.parentNode.removeChild(social);if(style.parentNode)style.parentNode.removeChild(style);if(fa.parentNode)fa.parentNode.removeChild(fa);if(transBox&&transBox.parentNode)transBox.parentNode.removeChild(transBox);if(notesBox&&notesBox.parentNode)notesBox.parentNode.removeChild(notesBox);document.removeEventListener("keydown",keyHandler,true);}close.onclick=closeAll;mini.onclick=function(){panel.style.display="none";follow.style.display="none";social.style.display="none";if(transBox)transBox.style.display="none";if(notesBox)notesBox.style.display="none";};var max=false,oldLeft,oldTop,oldWidth,oldHeight;full.onclick=function(){if(!max){oldLeft=panel.style.left;oldTop=panel.style.top;oldWidth=panel.style.width;oldHeight=panel.style.height;panel.style.left="0";panel.style.top="0";panel.style.width="100vw";panel.style.height="100vh";panel.style.resize="none";area.style.height="calc(100vh - 48px)";full.innerHTML="<i class='fa-solid fa-compress' aria-hidden='true'></i>";max=true;}else{panel.style.left=oldLeft||"50px";panel.style.top=oldTop||"50px";panel.style.width=oldWidth||"min(850px,calc(100vw - 24px))";panel.style.height=oldHeight||"min(550px,calc(100vh - 24px))";panel.style.resize="both";area.style.height="calc(100% - 48px)";full.innerHTML="<i class='fa-solid fa-expand' aria-hidden='true'></i>";max=false;}};trans.onclick=function(){if(transBox){transBox.style.display=transBox.style.display==="none"?"block":"none";return;}transBox=document.createElement("div");transBox.id="meldTransparency";var label=document.createElement("div");label.textContent="Panel transparency";set(label,"color:"+accent+";font-weight:bold;margin-bottom:11px");bar=document.createElement("div");set(bar,"position:relative;width:100%;height:11px;background:#2d3d2a;border:1px solid rgba(183,243,92,.25);border-radius:10px;cursor:pointer");fill=document.createElement("div");set(fill,"position:absolute;left:0;top:0;width:0%;height:100%;background:"+accent+";border-radius:10px");knob=document.createElement("div");set(knob,"position:absolute;left:0%;top:50%;width:21px;height:21px;background:"+accent+";border:2px solid #142012;border-radius:50%;transform:translate(-50%,-50%)");value=document.createElement("span");value.textContent="0%";set(value,"display:block;margin-top:10px;color:"+muted+";text-align:center;font-weight:bold");bar.appendChild(fill);bar.appendChild(knob);transBox.appendChild(label);transBox.appendChild(bar);transBox.appendChild(value);set(transBox,"position:fixed;z-index:2147483650;top:88px;right:18px;width:245px;padding:14px;background:"+dark+";color:"+text+";border:1px solid "+accent+";border-radius:13px;box-shadow:0 18px 45px rgba(0,0,0,.65);font:12px Arial");document.body.appendChild(transBox);var moving=false;bar.onmousedown=function(e){moving=true;pointer(e.clientX);};document.addEventListener("mousemove",function(e){if(moving)pointer(e.clientX);});document.addEventListener("mouseup",function(){moving=false;});apply(0);};var notesKey="meldNotesPages_v1",notesData=[];try{notesData=JSON.parse(localStorage.getItem(notesKey)||"[]");}catch(e){notesData=[];}if(!Array.isArray(notesData))notesData=[];if(!notesData.length)notesData=[{title:"Page 1",text:""}];var currentPage=0;function saveNotes(){try{localStorage.setItem(notesKey,JSON.stringify(notesData));}catch(e){}}function renderNotes(){if(!notesBox)return;var select=notesBox.querySelector("#meldNotesPages"),titleInput=notesBox.querySelector("#meldNotesTitle"),textArea=notesBox.querySelector("#meldNotesText");select.innerHTML="";for(var i=0;i<notesData.length;i++){var option=document.createElement("option");option.value=String(i);option.textContent=notesData[i].title||("Page "+(i+1));select.appendChild(option);}if(currentPage>=notesData.length)currentPage=notesData.length-1;if(currentPage<0)currentPage=0;select.value=String(currentPage);titleInput.value=notesData[currentPage].title||"";textArea.value=notesData[currentPage].text||"";var del=notesBox.querySelector("#meldNotesDelete");del.disabled=notesData.length<=1;del.style.opacity=notesData.length<=1?".5":"1";}function buildNotes(){notesBox=document.createElement("div");notesBox.id="meldNotes";notesBox.innerHTML="<div id='meldNotesHeader'><span id='meldNotesHeading'><i class='fa-solid fa-note-sticky' aria-hidden='true'></i>  Notes</span><button id='meldNotesClose' type='button' title='Close' aria-label='Close'><i class='fa-solid fa-xmark' aria-hidden='true'></i></button></div><div id='meldNotesTop'><select id='meldNotesPages' aria-label='Choose notes page'></select><button id='meldNotesAdd' type='button' title='Add page' aria-label='Add page'><i class='fa-solid fa-plus' aria-hidden='true'></i></button><button id='meldNotesDelete' type='button' title='Delete page' aria-label='Delete page'><i class='fa-solid fa-trash' aria-hidden='true'></i></button></div><input id='meldNotesTitle' type='text' maxlength='60' placeholder='Page title'><textarea id='meldNotesText' placeholder='Write your notes here...'></textarea><div id='meldNotesHint'>Saved automatically on this browser</div>";document.body.appendChild(notesBox);notesBox.querySelector("#meldNotesPages").onchange=function(){currentPage=Number(this.value)||0;renderNotes();};notesBox.querySelector("#meldNotesAdd").onclick=function(){var n=notesData.length+1;notesData.push({title:"Page "+n,text:""});currentPage=notesData.length-1;saveNotes();renderNotes();notesBox.querySelector("#meldNotesTitle").focus();};notesBox.querySelector("#meldNotesDelete").onclick=function(){if(notesData.length<=1)return;if(!confirm("Delete this notes page? This cannot be undone."))return;notesData.splice(currentPage,1);currentPage=Math.max(0,currentPage-1);saveNotes();renderNotes();};notesBox.querySelector("#meldNotesClose").onclick=function(){notesBox.style.display="none";};notesBox.querySelector("#meldNotesTitle").oninput=function(){notesData[currentPage].title=this.value;saveNotes();var select=notesBox.querySelector("#meldNotesPages"),option=select.options[currentPage];if(option)option.textContent=this.value||("Page "+(currentPage+1));};notesBox.querySelector("#meldNotesText").oninput=function(){notesData[currentPage].text=this.value;saveNotes();};var notesDragging=false,notesDx=0,notesDy=0,notesHeader=notesBox.querySelector("#meldNotesHeader");notesHeader.onmousedown=function(e){if(e.target.closest("button"))return;notesDragging=true;var r=notesBox.getBoundingClientRect();notesDx=e.clientX-r.left;notesDy=e.clientY-r.top;e.preventDefault();};document.addEventListener("mousemove",function(e){if(notesDragging){notesBox.style.left=Math.max(0,Math.min(window.innerWidth-notesBox.offsetWidth,e.clientX-notesDx))+"px";notesBox.style.top=Math.max(0,Math.min(window.innerHeight-notesBox.offsetHeight,e.clientY-notesDy))+"px";notesBox.style.right="auto";}});document.addEventListener("mouseup",function(){notesDragging=false;});renderNotes();}notesButton.onclick=function(){if(!notesBox)buildNotes();notesBox.style.display=notesBox.style.display==="block"?"none":"block";if(notesBox.style.display==="block")notesBox.querySelector("#meldNotesText").focus();};var dragging=false,dx=0,dy=0;head.onmousedown=function(e){if(e.target.closest("button"))return;dragging=true;var r=panel.getBoundingClientRect();dx=e.clientX-r.left;dy=e.clientY-r.top;e.preventDefault();};document.addEventListener("mousemove",function(e){if(dragging){panel.style.left=Math.max(0,Math.min(window.innerWidth-panel.offsetWidth,e.clientX-dx))+"px";panel.style.top=Math.max(0,Math.min(window.innerHeight-panel.offsetHeight,e.clientY-dy))+"px";}});document.addEventListener("mouseup",function(){dragging=false;});function keyHandler(e){if(e.code==="Backquote"){e.preventDefault();apply(transparency===95?0:95);}}document.addEventListener("keydown",keyHandler,true);reload.onclick=function(){frame.src="https://meld-code.github.io/Meld?reload="+Date.now();startLoader();};}catch(e){alert("Meld bookmarklet error: "+e.message);}})();
-      /*
-       * Important:
-       * The bookmarklet is still available as the link's href so Chrome
-       * can drag it into the bookmarks bar.
-       *
-       * Clicking it on the webpage is blocked below.
-       */
-      bookmarklet.href = "javascript:" + bookmarkletSource;
+/*
+  Prevent a normal page click from running the bookmarklet.
+  Dragging the link to the bookmarks bar still copies its href.
+*/
+["click", "auxclick"].forEach((eventName) => {
+  bookmarklet.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+});
 
-      bookmarklet.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      });
+bookmarklet.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+});
 
-      bookmarklet.addEventListener("auxclick", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      });
+bookmarklet.addEventListener("dragstart", (event) => {
+  bookmarklet.classList.add("install-dragging");
+  event.dataTransfer.setData("text/uri-list", bookmarklet.href);
+  event.dataTransfer.setData("text/plain", bookmarklet.href);
+  event.dataTransfer.effectAllowed = "copy";
+});
 
-      bookmarklet.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      });
+bookmarklet.addEventListener("dragend", () => {
+  bookmarklet.classList.remove("install-dragging");
+});
 
-      bookmarklet.addEventListener("dragstart", () => {
-        bookmarklet.classList.add("install-dragging");
-      });
-
-      bookmarklet.addEventListener("dragend", () => {
-        bookmarklet.classList.remove("install-dragging");
-      });
-    })();
-  </script>
+})();
+</script>
 </body>
 </html>
