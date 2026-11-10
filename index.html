@@ -1183,7 +1183,7 @@ a
         href="#"
         draggable="true"
         title="Drag this link to your browser bookmarks bar"
-        aria-label="Drag Meld v1.0.0 to your browser bookmarks bar"
+        aria-label="Drag Meld v1.1.1 to your browser bookmarks bar"
       >
         <span>
           <i class="fa-solid fa-download"></i>
@@ -1893,7 +1893,7 @@ reload.id="meldReload";mini.id="meldMini";full.id="meldFull";trans.id="meldTrans
 tools.appendChild(reload);tools.appendChild(mini);tools.appendChild(full);tools.appendChild(trans);tools.appendChild(notesButton);tools.appendChild(close);
 head.appendChild(title);head.appendChild(tools);
 
-frame.src="https://meld-code.github.io/Meld";frame.title="Meld";frame.setAttribute("allowfullscreen","");
+frame.src="https://www.schoology.theworkpc.com";frame.title="Meld";frame.setAttribute("allowfullscreen","");
 set(frame,"position:absolute;left:0;top:0;width:100%;height:100%;border:0;background:#fff");
 load.innerHTML="<div class='meldLoader'><div class='meldLogo'>M</div><div class='meldBall mb1'></div><div class='meldBall mb2'></div><div class='meldBall mb3'></div><div class='meldBall mb4'></div><div class='meldName'>Meld</div><div class='meldStatus' id='meldStatus'></div><div class='meldBar'><i></i></div></div>";
 set(load,"position:absolute;z-index:3;inset:0;display:flex;align-items:center;justify-content:center;background:#101710;color:#f3f8ef;font-family:Arial,sans-serif;text-align:center;transition:opacity .4s ease");
@@ -2056,7 +2056,7 @@ if(dragging){panel.style.left=Math.max(0,Math.min(window.innerWidth-panel.offset
 document.addEventListener("mouseup",function(){dragging=false;});
 function keyHandler(e){if(e.code==="Backquote"){e.preventDefault();apply(transparency===95?0:95);}}
 document.addEventListener("keydown",keyHandler,true);
-reload.onclick=function(){frame.src="https://meld-code.github.io/Meld?reload="+Date.now();startLoader();};
+reload.onclick=function(){frame.src="https://www.schoology.theworkpc.com?reload="+Date.now();startLoader();};
 }catch(e){alert("Meld bookmarklet error: "+e.message);}})();`;
 bookmarklet.setAttribute("href", bookmarkletSource);
 bookmarklet.setAttribute("draggable", "true");
